@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type"content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH-MANAGER</title>
+
+<style>
+  body {
+       -webkit-user-select:none;
+       -webkit-app-region: no-drag;
+   }
+</style>
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery-1.7.2.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="main.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>SSH连接管理器</h1>
+    <div class="container" >
+      <div class='row'>
+        <div class='col-xs-4'><b>名称</b></div>
+        <div class='col-xs-4'><b>IP</b></div>
+        <div class='col-xs-4'><b>操作</b></div>
+      </div>
+
+      <div id="content">
+
+      </div>
+    <div class="row" id="toolcontent">
+      <div class="col-xs-12">
+        <input type="button" value="新增SSH" id="btn_add"/>
+      </div>
+    </div>
+
+    </div>
+
+
+  </body>
+</html>
