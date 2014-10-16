@@ -1,8 +1,46 @@
 var fs = require('fs');
 // var JSON = require('./json2.js');
-var fileName = process.cwd() + '/resources/config.json';
-var scriptFileName = process.cwd() + '/resources/script.sh';
+var appResourcesName = "/ssh-manager";
+var configFile = '/ssh-manager/config.json';
+var scriptFile = '/ssh-manager/script.sh';
+var exec = require('child_process').exec;
+// last = exec('echo $HOME');
 var new_entity;
+
+function initPath(callback){
+  exec('echo $HOME').stdout.on('data', function (data) {
+    var userPath = data.trim();
+    var configFileName = userPath + configFile;
+    var scriptFileName = userPath + scriptFile;
+
+    var appResourcesPath = userPath + appResourcesName;
+
+    fs.exists(appResourcesPath,function(result){
+      console.log("file path result is : " + result);
+      if(!result){
+        makePath(appResourcesPath,function(e){
+          if(e){
+            console.log('Error: ' + err);
+            return;
+          }
+          fs.exists(configFileName, function(r1){
+            if(!r1){
+              writeToFile(configFileName,"");
+            }
+            fs.exists(scriptFileName, function(r2){
+              if(!r2){
+                writeToFile(scriptFileName,"");
+              }
+            });
+          });
+        });
+
+      }
+    });
+
+    callback(configFileName,scriptFileName);
+  });
+}
 
 function SshData(documentsData){
    this.ssh_name = documentsData.getElementById('ssh_name').value;
@@ -26,7 +64,7 @@ function SshData(documentsData){
 
 SshData.prototype.addData = function(){
 console.log('data1 is : '+ JSON.stringify(this.entity));
-// console.log('file path is:' + fileName);
+// console.log('file path is:' + configFileName);
   getAllData(function(data){
     // var newSSh = new SSHEntity();
     console.log('getAllData : '+JSON.stringify(data) );
@@ -42,13 +80,16 @@ console.log('data1 is : '+ JSON.stringify(this.entity));
 }
 
 function addContent(scriptContent){
-  fs.open(fileName,"a",0755,function(e,fd){
-      if(e) throw e;
-      fs.write(fd,scriptContent,function(e){
-          if(e) throw e;
-          fs.closeSync(fd);
-      });
+  initPath(function(configFileName,scriptFileName){
+    fs.open(configFileName,"a",0755,function(e,fd){
+        if(e) throw e;
+        fs.write(fd,scriptContent,function(e){
+            if(e) throw e;
+            fs.closeSync(fd);
+        });
+    });
   });
+
 }
 
 function getAllData(callback){
@@ -125,11 +166,18 @@ SshData.prototype.updateEntity = function(id){
 }
 
 function writeContent(newContent){
-  writeToFile(fileName,newContent);
+  initPath(function(configFileName,scriptFileName){
+    writeToFile(configFileName,newContent);
+  });
+
 }
 
 function writeScript(newContent){
-  writeToFile(scriptFileName,newContent);
+  initPath(function(configFileName,scriptFileName){
+    writeToFile(scriptFileName,newContent);
+  });
+
+
 }
 
 function writeToFile(filepath, content){
@@ -142,18 +190,25 @@ function writeToFile(filepath, content){
   });
 }
 
+function makePath(pathName, callback){
+  fs.mkdirSync(pathName, 0755, callback());
+}
+
 function readContent(callback){
-  console.log('process.cwd() : ' + process.cwd());
-  fs.readFile(fileName, 'utf8', function (err, data) {
-    if (err) {
-      console.log('Error: ' + err);
-      return;
-    }
+  // console.log('process.cwd() : ' + process.cwd());
+  initPath(function(configFileName,scriptFileName){
+    fs.readFile(configFileName, 'utf8', function (err, data) {
+      if (err) {
+        console.log('Error: ' + err);
+        return;
+      }
 
-    console.dir(data);
+      console.dir(data);
 
-    callback(data);
+      callback(data);
+    });
   });
+
 }
 
 SshData.prototype.readData = function(callback){

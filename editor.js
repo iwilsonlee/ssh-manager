@@ -11,6 +11,7 @@ $(document).ready(function() {
   // });
   var btnSave = document.querySelector('#btn_save');
   var btnCancel = document.querySelector('#btn_cancel');
+  var elementTitle = document.getElementById('editor_title');
 
   var ssh_id = getUrlPara("ssh_id");
   // alert('ssh_id='+ssh_id);
@@ -28,8 +29,10 @@ $(document).ready(function() {
       }
     });
     btnSave.value = '确认修改';
+    elementTitle.innerHTML = '修改SSH';
   }else{
     btnSave.value = '确认新增';
+    elementTitle.innerHTML = '新增SSH';
   }
 
   var chooser = document.querySelector('#keyDialog');

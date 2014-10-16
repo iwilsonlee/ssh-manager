@@ -3,7 +3,6 @@ global.$ = $;
 var openssh = require("./js/openssh");
 var gui = require('nw.gui');
 var win = require('nw.gui').Window.get();
-var scriptPath = 'resources/25.sh';
 var ssh_data = require("./js/ssh_data");
 
 $(document).ready(function() {
@@ -115,6 +114,13 @@ function connect_ssh(ssh_id){
     }
     scriptcontent += " " +username+"@"+ip;
     ssh_data.writeScript(scriptcontent);
-    openssh.connect('resources/script.sh');
+    var exec = require('child_process').exec,
+    last = exec('echo $HOME');
+    last.stdout.on('data', function (data) {
+      var userPath = data.trim();
+      userPath += "/ssh-manager/script.sh";
+      openssh.connect(userPath);
+    });
+
   });
 }
