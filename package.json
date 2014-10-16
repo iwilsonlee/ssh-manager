@@ -1,17 +1,16 @@
 {
 
-  "name": "ssh-manager",
+  "name": "ssh manager",
 
   "main": "index.html",
 
   "nodejs":true,
 
-
    "window": {
 
-    "title": "ssh-manager",
+    "title": "ssh manager",
 
-    "toolbar": true,
+    "toolbar": false,
 
     "width": 800,
 
@@ -21,9 +20,10 @@
 
    "show_in_taskbar":true,
 
-   "frame":false,
+   "frame":true,
 
    "kiosk":false,
+   
    "icon":"imgs/apple.png"
 
   },
