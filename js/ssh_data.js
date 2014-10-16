@@ -1,7 +1,7 @@
 var fs = require('fs');
 // var JSON = require('./json2.js');
-var fileName = __dirname.substr(0,__dirname.indexOf('js')) + 'resources/config.json';
-var scriptFileName = __dirname.substr(0,__dirname.indexOf('js')) + 'resources/script.sh';
+var fileName = process.cwd() + '/resources/config.json';
+var scriptFileName = process.cwd() + '/resources/script.sh';
 var new_entity;
 
 function SshData(documentsData){
@@ -143,6 +143,7 @@ function writeToFile(filepath, content){
 }
 
 function readContent(callback){
+  console.log('process.cwd() : ' + process.cwd());
   fs.readFile(fileName, 'utf8', function (err, data) {
     if (err) {
       console.log('Error: ' + err);

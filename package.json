@@ -21,7 +21,7 @@
 
    "show_in_taskbar":true,
 
-   "frame":true,
+   "frame":false,
 
    "kiosk":false,
    "icon":"imgs/apple.png"

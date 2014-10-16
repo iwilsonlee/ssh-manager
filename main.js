@@ -25,6 +25,7 @@ $(document).ready(function() {
   // var href_connect = document.getElementById('connect');
   // var href_edit = document.getElementById('edit');
   var href_add = document.querySelector('#btn_add');
+  var btn_quit = document.querySelector('#btn_quit');
   //
   // href_connect.addEventListener('click', function(){
   //   openssh.connect(scriptPath);
@@ -37,6 +38,11 @@ $(document).ready(function() {
     // var y = window.screenY;
     // window.open('editor.html','screenX=' + x + ',screenY=' + y);
     open_editor_file(0);
+  });
+
+  btn_quit.addEventListener('click', function(){
+    var app = gui.App;
+    app.quit();
   });
   //
   // function apendText(text){
@@ -86,7 +92,7 @@ function delete_ssh(ssh_name,ssh_ip,ssh_id){
 function open_editor_file(ssh_id){
   var editor_file = "editor.html?ssh_id="+ssh_id;
 
-  var win_editor = gui.Window.open(editor_file,{position: 'center',width: 400,height: 400,focus: true});
+  var win_editor = gui.Window.open(editor_file,{position: 'center',width: 450,height: 400,focus: true,frame:false});
   win_editor.on('close',function(){
     console.log("win_editor closing...");
     this.close(true);
