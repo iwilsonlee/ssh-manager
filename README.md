@@ -22,6 +22,6 @@ grunt nodewebkit
 
 #Running (Mac)
 On Mac, you can now open your app using:
-<code>
+<pre>
 open build/ssh-manager/osx/ssh-manager.app/
-</code>
+</pre>
