@@ -52,12 +52,12 @@ $(document).ready(function() {
 
   function createContent(ssh_name,ssh_ip,ssh_id){
     var htmlContent = "<div class='row'>"+
-      "<div class='col-xs-4'>"+ssh_name+"</div>"+
-      "<div class='col-xs-4'>"+ssh_ip+"</div>"+
-      "<div class='col-xs-4'>" +
-      "<input type='button' value='连接' id='btn_connect' onclick='connect_ssh("+ssh_id+")'/> "+
-      "| <input type='button' value='编辑' id='btn_update' onclick='update_ssh("+ssh_id+")'/> " +
-      "| <input type='button' value='删除' id='btn_delete' "+
+      "<div class='col-xs-3'>"+ssh_name+"</div>"+
+      "<div class='col-xs-3'>"+ssh_ip+"</div>"+
+      "<div class='col-xs-2'>" +
+      "<input type='button' value='连接' id='btn_connect' class='btn btn-xs btn-primary' onclick='connect_ssh("+ssh_id+")'/></div> "+
+      "<div class='col-xs-2'> <input type='button' value='编辑' id='btn_update' class='btn btn-xs btn-primary' onclick='update_ssh("+ssh_id+")'/> </div>" +
+      "<div class='col-xs-2'> <input type='button' value='删除' id='btn_delete' class='btn btn-xs btn-primary' "+
       "onclick='delete_ssh(\""+ssh_name+"\",\""+ssh_ip+"\","+ssh_id+")'/>" +
       "</div>"+
     "</div>";
@@ -91,7 +91,7 @@ function delete_ssh(ssh_name,ssh_ip,ssh_id){
 function open_editor_file(ssh_id){
   var editor_file = "editor.html?ssh_id="+ssh_id;
 
-  var win_editor = gui.Window.open(editor_file,{position: 'center',width: 450,height: 400,focus: true,frame:false});
+  var win_editor = gui.Window.open(editor_file,{position: 'center',width: 380,height: 480,focus: true,frame:false});
   win_editor.on('close',function(){
     console.log("win_editor closing...");
     this.close(true);
