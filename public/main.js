@@ -8,12 +8,12 @@ var ssh_data = require("./js/ssh_data");
 $(document).ready(function() {
   ssh_data.getAllData(function(data){
     if(data){
-      console.log("read data :" + JSON.stringify(data));
+      // console.log("read data :" + JSON.stringify(data));
       var content = "";
       for(var i in data){
         var ssh_id = data[i].id;
         var sshEntity = data[i].sshEntity;
-        console.log("read arrEntity :" + JSON.stringify(data[i]));
+        // console.log("read arrEntity :" + JSON.stringify(data[i]));
         var ssh_name = sshEntity.name;
         var ssh_ip = sshEntity.ip;
         content += createContent(ssh_name,ssh_ip,ssh_id);

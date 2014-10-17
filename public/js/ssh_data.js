@@ -1,8 +1,8 @@
 var fs = require('fs');
 // var JSON = require('./json2.js');
 var appResourcesName = "/ssh-manager";
-var configFile = '/ssh-manager/config.json';
-var scriptFile = '/ssh-manager/script.sh';
+var configFile = appResourcesName + '/config.json';
+var scriptFile = appResourcesName + '/script.sh';
 var exec = require('child_process').exec;
 // last = exec('echo $HOME');
 var new_entity;
@@ -63,15 +63,15 @@ function SshData(documentsData){
 
 
 SshData.prototype.addData = function(){
-console.log('data1 is : '+ JSON.stringify(this.entity));
+// console.log('data1 is : '+ JSON.stringify(this.entity));
 // console.log('file path is:' + configFileName);
   getAllData(function(data){
     // var newSSh = new SSHEntity();
-    console.log('getAllData : '+JSON.stringify(data) );
+    // console.log('getAllData : '+JSON.stringify(data) );
     var newId = data.length==0?1:(data.length+1);
     var newSSh = {id:newId,sshEntity:new_entity};
-    console.log("this.entity : "+ JSON.stringify(new_entity));
-    console.log("newssh : "+ JSON.stringify(newSSh));
+    // console.log("this.entity : "+ JSON.stringify(new_entity));
+    // console.log("newssh : "+ JSON.stringify(newSSh));
     //like : {id:1,sshEntity:newSSh.entity} | \n
     var content = JSON.stringify(newSSh) + "|\n";
     addContent(content);
@@ -98,10 +98,10 @@ function getAllData(callback){
     if(data){
       var dataArray = data.split('|');
       var dataLength = dataArray.length-1;
-      console.log("read data : " + data);
-      console.log("data length :" + dataArray.length);
+      // console.log("read data : " + data);
+      // console.log("data length :" + dataArray.length);
       for(var i=0; i<dataLength; i++){
-        console.log("temp data : " + dataArray[i]);
+        // console.log("temp data : " + dataArray[i]);
         var aJson = JSON.parse(dataArray[i]);
         jsonArray[i] = aJson;
       }
@@ -203,7 +203,7 @@ function readContent(callback){
         return;
       }
 
-      console.dir(data);
+      // console.dir(data);
 
       callback(data);
     });

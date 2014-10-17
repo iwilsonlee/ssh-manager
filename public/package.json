@@ -1,0 +1,21 @@
+{
+  "name": "ssh-manager",
+  "main": "index.html",
+  "version": "0.1",
+  "description":"the app for manage the ssh connection.",
+  "nodejs":true,
+  "window": {
+    "title": "ssh manager",
+    "toolbar": false,
+    "width": 600,
+    "height": 600,
+    "resizable":true,
+    "show_in_taskbar":true,
+    "frame":true,
+    "kiosk":false,
+    "icon":"imgs/apple.png"
+  },
+  "webkit":{
+  "plugin":true
+  }
+}

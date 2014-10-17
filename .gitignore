@@ -1,3 +1,4 @@
 node_modules
-resources/config.json
-resources/script.sh
+build
+cache
+public/node_modules
