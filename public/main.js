@@ -1,14 +1,15 @@
 global.$ = $;
 
-var openssh = require("./js/openssh");
+var openssh = require("./modules/openssh");
 var gui = require('nw.gui');
-var win = require('nw.gui').Window.get();
-var ssh_data = require("./js/ssh_data");
+var win = gui.Window.get();
+var ssh_data = require("./modules/ssh_data");
+var myMenu = require("./modules/menu");
 
 $(document).ready(function() {
   var manifest = gui.App.manifest;
   win.title = manifest.window.title + " V-" + manifest.version;
-
+  myMenu.Menu(gui);
   ssh_data.getAllData(function(data){
     if(data){
       // console.log("read data :" + JSON.stringify(data));
@@ -24,34 +25,20 @@ $(document).ready(function() {
       showCotent(content);
     }
   });
-  // var href_connect = document.getElementById('connect');
-  // var href_edit = document.getElementById('edit');
+
   var href_add = document.querySelector('#btn_add');
-  var btn_quit = document.querySelector('#btn_quit');
-  //
-  // href_connect.addEventListener('click', function(){
-  //   openssh.connect(scriptPath);
-  // });
-  //
+  // var btn_quit = document.querySelector('#btn_quit');
+
 
   href_add.addEventListener('click', function(){
-    // win.window.close();
-    // var x = window.screenX;
-    // var y = window.screenY;
-    // window.open('editor.html','screenX=' + x + ',screenY=' + y);
     open_editor_file(0);
   });
 
-  btn_quit.addEventListener('click', function(){
-    var app = gui.App;
-    app.quit();
-  });
-  //
-  // function apendText(text){
-  //   var element = document.createElement('div');
-  //   element.appendChild(document.createTextNode(text));
-  //   document.body.appendChild(element);
-  // }
+  // btn_quit.addEventListener('click', function(){
+  //   var app = gui.App;
+  //   app.quit();
+  // });
+
 
   function createContent(ssh_name,ssh_ip,ssh_id){
     var htmlContent = "<tr>"+
@@ -94,7 +81,9 @@ function delete_ssh(ssh_name,ssh_ip,ssh_id){
 function open_editor_file(ssh_id){
   var editor_file = "editor.html?ssh_id="+ssh_id;
 
-  var win_editor = gui.Window.open(editor_file,{position: 'center',width: 380,height: 550,focus: true,frame:true,toolbar:false});
+  var win_editor = gui.Window.open(editor_file,{position: 'center',
+  width: 380,height: 550,focus: true,frame:true,
+  toolbar:false,fullscreen:false});
   win_editor.on('close',function(){
     console.log("win_editor closing...");
     this.close(true);

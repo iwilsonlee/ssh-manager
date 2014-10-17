@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type"content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH MANAGER</title>
+
+<style>
+  body {
+       -webkit-user-select:none;
+       -webkit-app-region: no-drag;
+   }
+</style>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <div style="margin-top:10px;">
+            <img src="imgs/icon64.png"/>
+            <p id="app-name"></p>
+            <p id='app-version'></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+<script>
+var gui = require('nw.gui');
+var manifest = gui.App.manifest;
+var appName = manifest.window.title ;
+var version = "Version " + manifest.version;
+var elementAppName = document.getElementById('app-name');
+var elementVersion = document.getElementById('app-version');
+elementAppName.innerHTML = appName;
+elementVersion.innerHTML = version;
+</script>
+  </body>
+
+</html>

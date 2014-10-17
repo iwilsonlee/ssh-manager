@@ -1,9 +1,9 @@
 global.$ = $;
 
-var openssh = require("./js/openssh");
+var openssh = require("./modules/openssh");
 var gui = require('nw.gui');
 var win = gui.Window.get();
-var ssh_data = require("./js/ssh_data");
+var ssh_data = require("./modules/ssh_data");
 
 $(document).ready(function() {
   // ssh_data.readContent(function(data){
