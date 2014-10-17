@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type"content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSH MANAGER V-0.1</title>
+    <title>SSH MANAGER</title>
 
 <style>
   body {
@@ -24,16 +24,28 @@
   <body>
 
     <div class="container" >
-      <h1>SSH连接管理器</h1>
+      <h3>SSH连接管理器</h3>
       <div class='row'>
-        <div class='col-xs-4'><b>名称</b></div>
-        <div class='col-xs-4'><b>IP</b></div>
-        <div class='col-xs-4'><b>操作</b></div>
+        <div class='col-xs-12'>
+
+          <table class="table table-hover table-condensed table-bordered table-responsive">
+            <thead>
+            <tr class="active">
+            <th>名称</th>
+            <th>IP</th>
+            <th>操作</th>
+            </tr>
+          </thead>
+
+          <tbody id='content'>
+
+          </tbody>
+
+          </table>
+
+        </div>
       </div>
 
-      <div id="content">
-
-      </div>
     <div class="row" id="toolcontent">
       <div class="col-xs-12">
         <input type="button" value="新增SSH" class="btn btn-lg btn-primary" id="btn_add"/>

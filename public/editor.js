@@ -71,7 +71,7 @@ $(document).ready(function() {
   }, false);
 
   btnCancel.addEventListener("click", function(evt){
-    win.close();
+    win.close(true);
   }, false);
 
   function apendText(text){
