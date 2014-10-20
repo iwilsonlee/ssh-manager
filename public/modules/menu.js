@@ -6,7 +6,7 @@ function Menu(gui){
   var windowMenu = new gui.Menu({type:'menubar'});
   var windowSubMenu = new gui.Menu();
   var subMenuItem_about = new gui.MenuItem({label:'关于',tooltip:'about'});
-  var subMenuItem_quit = new gui.MenuItem({label:'退出',tooltip:'quit'});
+  var subMenuItem_quit = new gui.MenuItem({label:'退出(cmd+Q)',tooltip:'quit'});
 
   windowSubMenu.append(subMenuItem_about);
   windowSubMenu.append(subMenuItem_quit);
