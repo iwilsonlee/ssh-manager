@@ -5,6 +5,7 @@ var gui = require('nw.gui');
 var win = gui.Window.get();
 var ssh_data = require("./modules/ssh_data");
 
+
 $(document).ready(function() {
   // ssh_data.readContent(function(data){
   //   apendText(JSON.stringify(data));

@@ -6,7 +6,12 @@ function Menu(gui){
   var windowMenu = new gui.Menu({type:'menubar'});
   var windowSubMenu = new gui.Menu();
   var subMenuItem_about = new gui.MenuItem({label:'关于',tooltip:'about'});
-  var subMenuItem_quit = new gui.MenuItem({label:'退出(cmd+Q)',tooltip:'quit'});
+  var subMenuItem_quit = new gui.MenuItem({label:'退出',tooltip:'quit',
+  click:function(){
+    gui.App.quit()
+  },
+  key: "q",
+  modifiers: "cmd"});
 
   windowSubMenu.append(subMenuItem_about);
   windowSubMenu.append(subMenuItem_quit);
@@ -17,16 +22,21 @@ function Menu(gui){
 
   win.menu = windowMenu;
 
+  var win_about;
   subMenuItem_about.click = function(){
-    var win_editor = gui.Window.open("about.html",
-    {position: 'center',width: 300,height: 150,
-    focus: true,frame:true,toolbar:false,resizable:false,
-    kiosk:false,"always-on-top":true,fullscreen:false});
-  }
+    if(!win_about){
+      win_about = gui.Window.open("about.html",
+      {position: 'center',width: 300,height: 150,
+      focus: true,frame:true,toolbar:false,resizable:false,
+      kiosk:false,"always-on-top":true,fullscreen:false});
 
-  subMenuItem_quit.click = function(){
-    var app = gui.App;
-    app.quit();
+      win_about.on('close',function(){
+        console.log("win_about closing...");
+        this.close(true);
+        win_about = null;
+      });
+    }
+
   }
 }
 

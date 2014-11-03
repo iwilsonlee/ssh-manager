@@ -215,7 +215,6 @@ SshData.prototype.readData = function(callback){
   readContent(callback);
 }
 
-// exports.addContent = addContent;
 exports.readContent = readContent;
 exports.getAllData = getAllData;
 exports.getById = getById;

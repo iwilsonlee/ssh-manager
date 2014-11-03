@@ -8,10 +8,11 @@ var myMenu = require("./modules/menu");
 var myShortcut = require("./modules/shortcut");
 
 $(document).ready(function() {
+
   var manifest = gui.App.manifest;
   win.title = manifest.window.title + " V-" + manifest.version;
   myMenu.Menu(gui);
-  myShortcut.Shortcut(gui);
+  // myShortcut.Shortcut(gui);
   ssh_data.getAllData(function(data){
     if(data){
       // console.log("read data :" + JSON.stringify(data));
