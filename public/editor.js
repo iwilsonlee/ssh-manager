@@ -15,6 +15,7 @@ $(document).ready(function() {
   var elementTitle = document.getElementById('editor_title');
 
   var ssh_id = getUrlPara("ssh_id");
+  console.log("editor ssh_id is : " + ssh_id);
   // alert('ssh_id='+ssh_id);
   if(ssh_id && ssh_id!=0){
     ssh_data.getById(ssh_id,function(sshEntity){
@@ -72,7 +73,8 @@ $(document).ready(function() {
   }, false);
 
   btnCancel.addEventListener("click", function(evt){
-    win.close(true);
+    // win.close(true);
+    $('#myModal').modal('hide');
   }, false);
 
   function apendText(text){
@@ -83,6 +85,7 @@ $(document).ready(function() {
 
   function getUrlPara(paraName){
     var sUrl  =  location.href;
+    console.log("sUrl is : " + sUrl);
     var sReg  =  "(?:\\?|&){1}"+paraName+"=([^&]*)"
     var re=new RegExp(sReg,"gi");
     re.exec(sUrl);

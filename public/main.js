@@ -34,7 +34,8 @@ $(document).ready(function() {
 
 
   href_add.addEventListener('click', function(){
-    open_editor_file(0);
+    // open_editor_file(0);
+    goToEditor(0);
   });
 
   // btn_quit.addEventListener('click', function(){
@@ -64,13 +65,11 @@ $(document).ready(function() {
     element.innerHTML=content;
   }
 
-
-
-
 });
 
 function update_ssh(ssh_id){
-  open_editor_file(ssh_id);
+  // open_editor_file(ssh_id);
+  goToEditor(ssh_id);
 }
 
 function delete_ssh(ssh_name,ssh_ip,ssh_id){
@@ -81,9 +80,116 @@ function delete_ssh(ssh_name,ssh_ip,ssh_id){
   }
 }
 
+function apendText(text){
+  var apendTextEm = document.getElementById('apendText');
+  // var element = apendTextEm.createElement('div');
+  apendTextEm.appendChild(document.createTextNode(text));
+  // document.body.appendChild(element);
+}
+
+  function doEditor(ssh_id){
+    var btnSave = document.querySelector('#btn_save');
+    var btnCancel = document.querySelector('#btn_cancel');
+    var elementTitle = document.getElementById('editor_title');
+
+    // var ssh_id = getUrlPara("ssh_id");
+    console.log("editor ssh_id is : " + ssh_id);
+    // alert('ssh_id='+ssh_id);
+    if(ssh_id && ssh_id!=0){
+      elementTitle.innerHTML = '修改SSH';
+      ssh_data.getById(ssh_id,function(sshEntity){
+        // alert("sshEntity=" + JSON.stringify(sshEntity));
+        document.getElementById('ssh_name').value = sshEntity.name;
+        document.getElementById('ssh_ip').value = sshEntity.ip;
+        document.getElementById('ssh_port').value = sshEntity.port;
+        document.getElementById('ssh_username').value = sshEntity.username;
+        document.getElementById('ssh_password').value = sshEntity.password;
+        if(sshEntity.keyfile){
+          document.getElementById('keyFileContent').style.display = 'block';
+          document.getElementById('keyFilePath').innerHTML = sshEntity.keyfile;
+        }
+      });
+      btnSave.value = '确认修改';
+    }else{
+      elementTitle.innerHTML = '新增SSH';
+      document.getElementById('ssh_name').value = "";
+      document.getElementById('ssh_ip').value = "";
+      document.getElementById('ssh_port').value = "";
+      document.getElementById('ssh_username').value = "";
+      document.getElementById('ssh_password').value = "";
+      document.getElementById('keyFileContent').style.display = 'none';
+      btnSave.value = '确认新增';
+    }
+
+    var chooser = document.querySelector('#keyDialog');
+    //对修改选择框的选择文件之后的事件监听代码，获取选择文件的路径。
+    chooser.addEventListener("change", function(evt){
+      apendText(this.value);
+    }, false);
+
+
+
+    btnSave.addEventListener("click", function(evt){
+      var ssh_name = document.getElementById('ssh_name').value;
+      var ssh_ip = document.getElementById('ssh_ip').value;
+      var ssh_port = document.getElementById('ssh_port').value;
+      var ssh_username = document.getElementById('ssh_username').value;
+      var ssh_password = document.getElementById('ssh_password').value;
+      var keyFile = document.getElementById('keyDialog').value;
+
+      var scriptContent = "ssh_name;"+ssh_name +
+      " | ssh_ip:"+ssh_ip +
+      " | ssh_port:"+ssh_port +
+      " | ssh_username:"+ssh_username +
+      " | ssh_password:"+ssh_password +
+      " | keyFile:"+keyFile;
+      apendText(scriptContent);
+
+      var SshData = new ssh_data.SshData(document);
+      if(ssh_id && ssh_id!=0){
+        SshData.updateEntity(ssh_id);
+      }else{
+        // ssh_data.addContent("dfsdfsfsfsdf");
+        SshData.addData();
+      }
+      $('#myModal').modal('hide');
+      // win.close();
+      win.reload();
+    }, false);
+
+    btnCancel.addEventListener("click", function(evt){
+      // win.close(true);
+      $('#myModal').modal('hide');
+    }, false);
+  }
+
+function goToEditor(ssh_id){
+  // document.location.href = "editor.html?ssh_id="+ssh_id;
+  // window.location.assign("editor.html?ssh_id="+ssh_id);
+
+  var targetUrl = "editor.html?ssh_id="+ssh_id;
+  console.log("targetUrl is : " + targetUrl);
+  // $('#myModal').removeData("bs.modal");
+  $('#myModal').modal({
+    keyboard: true,
+    show: true,
+    remote: targetUrl
+  });
+
+  $("#myModal").on("shown.bs.modal", function() {
+    console.log("do something 0000 !!!" + ssh_id);
+    doEditor(ssh_id);
+  });
+
+  $("#myModal").on("hidden.bs.modal", function() {
+    console.log("do something !!!");
+    $(this).removeData("bs.modal");
+  });
+}
+
 function open_editor_file(ssh_id){
   var editor_file = "editor.html?ssh_id="+ssh_id;
-
+  win.requestAttention(true);
   var win_editor = gui.Window.open(editor_file,{position: 'center',
   width: 380,height: 550,focus: true,frame:true,
   toolbar:false,fullscreen:false});
@@ -118,4 +224,15 @@ function connect_ssh(ssh_id){
     });
 
   });
+
+  /***************editor start ***************/
+
+  function getUrlPara(paraName){
+    var sUrl  =  location.href;
+    console.log("sUrl is : " + sUrl);
+    var sReg  =  "(?:\\?|&){1}"+paraName+"=([^&]*)"
+    var re=new RegExp(sReg,"gi");
+    re.exec(sUrl);
+    return RegExp.$1;
+  }
 }
