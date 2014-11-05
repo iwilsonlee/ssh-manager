@@ -87,17 +87,20 @@ function apendText(text){
   // document.body.appendChild(element);
 }
 
-  function doEditor(ssh_id){
+  function doEditor(id){
     var btnSave = document.querySelector('#btn_save');
     var btnCancel = document.querySelector('#btn_cancel');
     var elementTitle = document.getElementById('editor_title');
 
-    // var ssh_id = getUrlPara("ssh_id");
-    console.log("editor ssh_id is : " + ssh_id);
-    // alert('ssh_id='+ssh_id);
-    if(ssh_id && ssh_id!=0){
+    // var id = getUrlPara("id");
+    console.log("editor id is : " + id);
+    console.log("editor elementTitle is : " + elementTitle.value);
+    // alert('id='+id);
+    if(id && id!=0){
       elementTitle.innerHTML = '修改SSH';
-      ssh_data.getById(ssh_id,function(sshEntity){
+      console.log("editor id is : " + id);
+      ssh_data.getById(id,function(sshEntity){
+        console.log("editor id is : " + id);
         // alert("sshEntity=" + JSON.stringify(sshEntity));
         document.getElementById('ssh_name').value = sshEntity.name;
         document.getElementById('ssh_ip').value = sshEntity.ip;
@@ -146,8 +149,8 @@ function apendText(text){
       apendText(scriptContent);
 
       var SshData = new ssh_data.SshData(document);
-      if(ssh_id && ssh_id!=0){
-        SshData.updateEntity(ssh_id);
+      if(id && id!=0){
+        SshData.updateEntity(id);
       }else{
         // ssh_data.addContent("dfsdfsfsfsdf");
         SshData.addData();
@@ -163,27 +166,26 @@ function apendText(text){
     }, false);
   }
 
-function goToEditor(ssh_id){
+function goToEditor(id){
   // document.location.href = "editor.html?ssh_id="+ssh_id;
   // window.location.assign("editor.html?ssh_id="+ssh_id);
 
-  var targetUrl = "editor.html?ssh_id="+ssh_id;
+  var targetUrl = "editor.html?ssh_id="+id;
   console.log("targetUrl is : " + targetUrl);
   // $('#myModal').removeData("bs.modal");
   $('#myModal').modal({
+    backdrop: 'static',
     keyboard: true,
     show: true,
     remote: targetUrl
-  });
-
-  $("#myModal").on("shown.bs.modal", function() {
-    console.log("do something 0000 !!!" + ssh_id);
-    doEditor(ssh_id);
-  });
-
-  $("#myModal").on("hidden.bs.modal", function() {
+  }).on("shown.bs.modal", function() {
+    console.log("do something 0000 !!!" + id);
+    doEditor(id);
+  }).on("hidden.bs.modal", function(e) {
     console.log("do something !!!");
-    $(this).removeData("bs.modal");
+    $(e.target).removeData("bs.modal").find(".modal-content").empty();
+    console.log("$(this) length is :" + $('#myModal').length);
+    id=0;
   });
 }
 
@@ -225,14 +227,4 @@ function connect_ssh(ssh_id){
 
   });
 
-  /***************editor start ***************/
-
-  function getUrlPara(paraName){
-    var sUrl  =  location.href;
-    console.log("sUrl is : " + sUrl);
-    var sReg  =  "(?:\\?|&){1}"+paraName+"=([^&]*)"
-    var re=new RegExp(sReg,"gi");
-    re.exec(sUrl);
-    return RegExp.$1;
-  }
 }
