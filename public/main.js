@@ -73,11 +73,33 @@ function update_ssh(ssh_id){
 }
 
 function delete_ssh(ssh_name,ssh_ip,ssh_id){
-  if(confirm("警告：你确定要删除这条记录吗？[" + ssh_name +"|" + ssh_ip + "]")){
-    // alert('已删除');
-    ssh_data.deleteById(ssh_id);
-    win.reload();
-  }
+  // if(confirm("警告：你确定要删除这条记录吗？[" + ssh_name +"|" + ssh_ip + "]")){
+  //   // alert('已删除');
+  //   ssh_data.deleteById(ssh_id);
+  //   win.reload();
+  // }
+
+  $("#modalContent").load("dialog.html",function(responseTxt,statusTxt,xhr){
+    if(statusTxt=="success")
+        $('.modal-body').html("警告：你确定要删除这条记录吗?"+
+        "<p class='text-danger'>名称：" + ssh_name +"<br/>"+
+        "IP：" + ssh_ip + "</p>");
+        $('.modal-body').addClass('loader');
+        $('#myModal').modal({
+          backdrop: 'static',
+          keyboard: true,
+          show: true
+        });
+        var btnConfirm = document.querySelector('#btn_confirm');
+        btnConfirm.addEventListener("click", function(evt){
+          ssh_data.deleteById(ssh_id);
+          win.reload();
+        });
+
+      if(statusTxt=="error")
+        alert("Error: "+xhr.status+": "+xhr.statusText);
+  });
+
 }
 
 function apendText(text){
@@ -94,13 +116,10 @@ function apendText(text){
 
     // var id = getUrlPara("id");
     console.log("editor id is : " + id);
-    console.log("editor elementTitle is : " + elementTitle.value);
     // alert('id='+id);
     if(id && id!=0){
       elementTitle.innerHTML = '修改SSH';
-      console.log("editor id is : " + id);
       ssh_data.getById(id,function(sshEntity){
-        console.log("editor id is : " + id);
         // alert("sshEntity=" + JSON.stringify(sshEntity));
         document.getElementById('ssh_name').value = sshEntity.name;
         document.getElementById('ssh_ip').value = sshEntity.ip;
@@ -133,6 +152,7 @@ function apendText(text){
 
 
     btnSave.addEventListener("click", function(evt){
+      $('.modal-content').addClass('loader');
       var ssh_name = document.getElementById('ssh_name').value;
       var ssh_ip = document.getElementById('ssh_ip').value;
       var ssh_port = document.getElementById('ssh_port').value;
@@ -140,13 +160,13 @@ function apendText(text){
       var ssh_password = document.getElementById('ssh_password').value;
       var keyFile = document.getElementById('keyDialog').value;
 
-      var scriptContent = "ssh_name;"+ssh_name +
-      " | ssh_ip:"+ssh_ip +
-      " | ssh_port:"+ssh_port +
-      " | ssh_username:"+ssh_username +
-      " | ssh_password:"+ssh_password +
-      " | keyFile:"+keyFile;
-      apendText(scriptContent);
+      // var scriptContent = "ssh_name;"+ssh_name +
+      // " | ssh_ip:"+ssh_ip +
+      // " | ssh_port:"+ssh_port +
+      // " | ssh_username:"+ssh_username +
+      // " | ssh_password:"+ssh_password +
+      // " | keyFile:"+keyFile;
+      // apendText(scriptContent);
 
       var SshData = new ssh_data.SshData(document);
       if(id && id!=0){
@@ -173,20 +193,19 @@ function goToEditor(id){
   var targetUrl = "editor.html?ssh_id="+id;
   console.log("targetUrl is : " + targetUrl);
   // $('#myModal').removeData("bs.modal");
-  $('#myModal').modal({
-    backdrop: 'static',
-    keyboard: true,
-    show: true,
-    remote: targetUrl
-  }).on("shown.bs.modal", function() {
-    console.log("do something 0000 !!!" + id);
-    doEditor(id);
-  }).on("hidden.bs.modal", function(e) {
-    console.log("do something !!!");
-    $(e.target).removeData("bs.modal").find(".modal-content").empty();
-    console.log("$(this) length is :" + $('#myModal').length);
-    id=0;
+  $("#modalContent").load(targetUrl,function(responseTxt,statusTxt,xhr){
+    if(statusTxt=="success")
+    $('.modal-content').addClass('loader');
+        doEditor(id);
+        $('#myModal').modal({
+          backdrop: 'static',
+          keyboard: true,
+          show: true
+        });
+      if(statusTxt=="error")
+        alert("Error: "+xhr.status+": "+xhr.statusText);
   });
+
 }
 
 function open_editor_file(ssh_id){
