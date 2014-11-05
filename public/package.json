@@ -6,7 +6,7 @@
   "nodejs":true,
   "window": {
     "title": "SSH MANAGER",
-    "toolbar": true,
+    "toolbar": false,
     "width": 600,
     "height": 600,
     "resizable":true,
