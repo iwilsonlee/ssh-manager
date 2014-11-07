@@ -1,12 +1,12 @@
 {
   "name": "ssh-manager",
   "main": "index.html",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description":"the app for manage the ssh connection.",
   "nodejs":true,
   "window": {
     "title": "SSH MANAGER",
-    "toolbar": false,
+    "toolbar": true,
     "width": 600,
     "height": 600,
     "resizable":true,

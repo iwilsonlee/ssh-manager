@@ -2,6 +2,7 @@ var exec = require('child_process').exec;
 
 exports.connect = function(scriptFilePath){
   var last = exec('open -a /Applications/Utilities/Terminal.app/ ' + scriptFilePath);
+  // var last = exec(scriptFilePath);
 
   last.stdout.on('data', function (data) {
     console.log('标准输出：' + data);

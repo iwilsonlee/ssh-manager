@@ -78,24 +78,29 @@ function delete_ssh(ssh_name,ssh_ip,ssh_id){
   //   ssh_data.deleteById(ssh_id);
   //   win.reload();
   // }
-
+  loading('show');
   $("#modalContent").load("dialog.html",function(responseTxt,statusTxt,xhr){
-    if(statusTxt=="success")
+    if(statusTxt=="success"){
+
         $('.modal-body').html("警告：你确定要删除这条记录吗?"+
         "<p class='text-danger'>名称：" + ssh_name +"<br/>"+
         "IP：" + ssh_ip + "</p>");
         $('.modal-body').addClass('loader');
+        $("#btn_confirm").show();
         $('#myModal').modal({
           backdrop: 'static',
           keyboard: true,
           show: true
         });
+        loading('hide');
         var btnConfirm = document.querySelector('#btn_confirm');
         btnConfirm.addEventListener("click", function(evt){
+          loading('show');
           ssh_data.deleteById(ssh_id);
+          loading('hide');
           win.reload();
         });
-
+      }
       if(statusTxt=="error")
         alert("Error: "+xhr.status+": "+xhr.statusText);
   });
@@ -190,21 +195,27 @@ function goToEditor(id){
   // document.location.href = "editor.html?ssh_id="+ssh_id;
   // window.location.assign("editor.html?ssh_id="+ssh_id);
 
-  var targetUrl = "editor.html?ssh_id="+id;
-  console.log("targetUrl is : " + targetUrl);
-  // $('#myModal').removeData("bs.modal");
-  $("#modalContent").load(targetUrl,function(responseTxt,statusTxt,xhr){
-    if(statusTxt=="success")
-    $('.modal-content').addClass('loader');
+  // setTimeout(function(){
+    var targetUrl = "editor.html?ssh_id="+id;
+    console.log("targetUrl is : " + targetUrl);
+    // $('#myModal').removeData("bs.modal");
+    loading('show');
+    $("#modalContent").load(targetUrl,function(responseTxt,statusTxt,xhr){
+      if(statusTxt=="success"){
+
         doEditor(id);
         $('#myModal').modal({
           backdrop: 'static',
           keyboard: true,
           show: true
         });
+        loading('hide');
+      }
       if(statusTxt=="error")
-        alert("Error: "+xhr.status+": "+xhr.statusText);
-  });
+          alert("Error: "+xhr.status+": "+xhr.statusText);
+    });
+  // },5000);
+
 
 }
 
@@ -229,13 +240,14 @@ function connect_ssh(ssh_id){
     var username = sshEntity.username;
     var password = sshEntity.password;
     var keyFile = sshEntity.keyfile;
-    var scriptcontent = "#!/bin/bash\n";
-    scriptcontent += "ssh -p "+port ;
+    var scriptHeader = "#!/bin/bash\n";
+    var scriptcontent = "ssh -p "+port ;
     if(keyFile){
       scriptcontent += " -i " + keyFile;
     }
     scriptcontent += " " +username+"@"+ip;
-    ssh_data.writeScript(scriptcontent);
+    openInfoDialog(scriptcontent);
+    ssh_data.writeScript(scriptHeader + scriptcontent);
     var exec = require('child_process').exec,
     last = exec('echo $HOME');
     last.stdout.on('data', function (data) {
@@ -246,4 +258,48 @@ function connect_ssh(ssh_id){
 
   });
 
+}
+
+function openInfoDialog(info){
+  $("#modalContent").load("dialog.html",function(responseTxt,statusTxt,xhr){
+    if(statusTxt=="success"){
+        $("#myModalLabel").html("连接SSH Server指令如下：");
+        $('.modal-body').html(info  + "<br/><button type='button' class='btn btn-default' value='点击复制' id='btn_copy'>点击复制</button>");
+        $('.modal-body').addClass('loader');
+        $("#btn_dialog_cancel").html("OK");
+        $("#btn_confirm").hide();
+        $('#myModal').modal({
+          backdrop: 'static',
+          keyboard: true,
+          show: true
+        });
+        var btnConfirm = document.querySelector('#btn_confirm');
+        btnConfirm.addEventListener("click", function(evt){
+          ssh_data.deleteById(ssh_id);
+          win.reload();
+        });
+        var btnCopy = document.querySelector('#btn_copy');
+        btnCopy.addEventListener("click", function(evt){
+          setText(info);
+        });
+      }
+      if(statusTxt=="error")
+        alert("Error: "+xhr.status+": "+xhr.statusText);
+  });
+}
+
+function setText(info){
+  var clipBoard = gui.Clipboard.get();
+  clipBoard.set(info);
+  alert('已复制！');
+}
+
+function loading(status){
+  if(status=='show'){
+    $('#loadingModalContent').html($('#loading').html());
+    $('#loadingModal').modal('show');
+  }
+  if(status=='hide'){
+    $('#loadingModal').modal('hide');
+  }
 }
