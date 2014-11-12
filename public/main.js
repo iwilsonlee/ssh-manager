@@ -96,8 +96,10 @@ function delete_ssh(ssh_name,ssh_ip,ssh_id){
         var btnConfirm = document.querySelector('#btn_confirm');
         btnConfirm.addEventListener("click", function(evt){
           loading('show');
-          ssh_data.deleteById(ssh_id);
-          loading('hide');
+          ssh_data.deleteById(ssh_id,function(){
+            // loading('hide');
+          });
+
           win.reload();
         });
       }

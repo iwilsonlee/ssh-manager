@@ -123,7 +123,7 @@ function getById(id, callback){
   });
 }
 
-function deleteById(id){
+function deleteById(id, callback){
   getAllData(function(jsonArray){
     var newContent = "";
     var n = 0;
@@ -137,7 +137,7 @@ function deleteById(id){
     }
 
     writeContent(newContent);
-
+    callback();
   });
 }
 

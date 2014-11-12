@@ -10,6 +10,25 @@
        -webkit-user-select:none;
        -webkit-app-region: no-drag;
    }
+thead, tbody, tr, td, th { display: block; }
+tr:after {
+         content: ' ';
+         display: block;
+         visibility: hidden;
+         clear: both;
+     }
+tbody {
+         max-height: 420px;
+         overflow-y: auto;
+     }
+
+     td{height:34px;}
+
+     tbody td, thead th {
+         width: 33.3333333%;
+         float: left;
+     }
+
 </style>
     <!-- Bootstrap -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
