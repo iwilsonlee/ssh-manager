@@ -246,14 +246,16 @@ function connect_ssh(ssh_id){
       scriptcontent += " -i " + keyFile;
     }
     scriptcontent += " " +username+"@"+ip;
-    openInfoDialog(scriptcontent);
+    // openInfoDialog(scriptcontent);
     ssh_data.writeScript(scriptHeader + scriptcontent);
     var exec = require('child_process').exec,
     last = exec('echo $HOME');
     last.stdout.on('data', function (data) {
       var userPath = data.trim();
-      userPath += "/ssh-manager/script.sh";
-      openssh.connect(userPath);
+      userPath += "/ssh-manager/script.command";
+      var shell = gui.Shell;
+      shell.openItem(userPath);
+      // openssh.connect(userPath);
     });
 
   });

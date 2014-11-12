@@ -2,7 +2,7 @@ var fs = require('fs');
 // var JSON = require('./json2.js');
 var appResourcesName = "/ssh-manager";
 var configFile = appResourcesName + '/config.json';
-var scriptFile = appResourcesName + '/script.sh';
+var scriptFile = appResourcesName + '/script.command';
 var exec = require('child_process').exec;
 // last = exec('echo $HOME');
 var new_entity;
