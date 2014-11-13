@@ -23,7 +23,10 @@ $(document).ready(function() {
         // console.log("read arrEntity :" + JSON.stringify(data[i]));
         var ssh_name = sshEntity.name;
         var ssh_ip = sshEntity.ip;
-        content += createContent(ssh_name,ssh_ip,ssh_id);
+        var ssh_username = sshEntity.username;
+        var isUseKey = false;
+        isUseKey = sshEntity.keyfile ? isUseKey=true:isUseKey=false;
+        content += createContent(ssh_name,ssh_ip,ssh_id,ssh_username,isUseKey);
       }
       showCotent(content);
     }
@@ -44,12 +47,13 @@ $(document).ready(function() {
   // });
 
 
-  function createContent(ssh_name,ssh_ip,ssh_id){
-    var htmlContent = "<tr>"+
+  function createContent(ssh_name,ssh_ip,ssh_id,ssh_username,isUseKey){
+    var htmlContent = "<tr data-toggle='tooltip' "+
+    "title='Host:"+ssh_ip+"\nUser name:"+ssh_username+"\nPrivate key file:"+isUseKey+"'>"+
       "<td>"+ssh_name+"</td>"+
       "<td>"+ssh_ip+"</td>"+
       "<td>" +
-      "<input type='button' value='连接' id='btn_connect' class='btn btn-xs btn-primary' onclick='connect_ssh("+ssh_id+")'/> "+
+      "<input type='button' value='连接' id='btn_connect' class='btn btn-xs btn-primary' data-toggle='tooltip' title='ssh连接["+ssh_name+"]服务器' onclick='connect_ssh("+ssh_id+")'/> "+
       "<input type='button' value='编辑' id='btn_update' class='btn btn-xs btn-primary' onclick='update_ssh("+ssh_id+")'/> " +
       "<input type='button' value='删除' id='btn_delete' class='btn btn-xs btn-primary' "+
       "onclick='delete_ssh(\""+ssh_name+"\",\""+ssh_ip+"\","+ssh_id+")'/>" +
